@@ -3,9 +3,9 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance; // Singleton instance
-    public TextMeshProUGUI scoreText; // UI text element
-    private int score = 0; // Player's score
+    public static GameManager Instance; 
+    public TextMeshProUGUI scoreText; 
+    private int score = 0; 
 
     private void Awake()
     {
@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     public void IncrementScore()
     {
-        score++; // Increase score
-        scoreText.text = "Score: " + score; // Update UI
+        score++; 
+        scoreText.text = "Score: " + score;
     }
 }

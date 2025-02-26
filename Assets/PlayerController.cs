@@ -8,12 +8,12 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController controller;
     private Vector3 velocity;
-    private int jumpCount = 0; // Track jumps
+    private int jumpCount = 0; 
 
-    public Transform cameraTransform; // Reference to the camera transform
+    public Transform cameraTransform;
 
     // Dash variables
-    public float dashSpeedMultiplier = 2f; // Dash makes the player move faster
+    public float dashSpeedMultiplier = 2f; // 2x speed when dashing
     public float dashDuration = 0.2f; // Dash lasts 0.2 seconds
     public float dashCooldown = 1f; // 1-second cooldown between dashes
     private bool isDashing = false;
@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        Cursor.lockState = CursorLockMode.Locked; // Lock cursor to the center of the screen
+        Cursor.lockState = CursorLockMode.Locked; 
     }
 
     void Update()
@@ -43,24 +43,16 @@ public class PlayerController : MonoBehaviour
             dashCooldownTimer -= Time.deltaTime;
         }
 
-        // Get input for movement
+        // Camera movement
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-
-        // Get the camera's forward and right directions
         Vector3 camForward = cameraTransform.forward;
         Vector3 camRight = cameraTransform.right;
-
-        // Ignore vertical movement (prevent movement due to camera tilt)
         camForward.y = 0;
         camRight.y = 0;
-
         camForward.Normalize();
         camRight.Normalize();
-
-        // Move relative to camera direction
         Vector3 move = (camForward * vertical + camRight * horizontal).normalized;
-
         float currentSpeed = speed;
 
         // Dash logic
@@ -81,6 +73,13 @@ public class PlayerController : MonoBehaviour
             {
                 isDashing = false;
             }
+        }
+
+        // Rotate chicken towards movement direction
+        if (move.magnitude > 0.1f) 
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(move);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
         }
 
         controller.Move(move * currentSpeed * Time.deltaTime);

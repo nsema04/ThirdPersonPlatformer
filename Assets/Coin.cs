@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    public float rotationSpeed = 100f; // Speed of rotation
+    public float rotationSpeed = 100f;
 
     void Update()
     {
-        transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime); // Rotate the coin
+        transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) // Ensure the player is tagged correctly
+        if (other.CompareTag("Player"))
         {
-            GameManager.Instance.IncrementScore(); // Update score
-            Destroy(gameObject); // Remove coin
+            GameManager.Instance.IncrementScore();
+            Destroy(gameObject);
         }
     }
 }
